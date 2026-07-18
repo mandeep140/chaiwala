@@ -260,10 +260,22 @@ export default function SettingsPage() {
             </div>
             <div className="px-4 py-3 flex justify-between">
               <p className="text-sm text-muted-foreground">Version</p>
-              <p className="text-sm font-medium">1.0.0</p>
+              <p className="text-sm font-medium">1.0.1</p>
+            </div>
+            <div className="px-4 py-3 flex justify-between">
+              <p className="text-sm text-muted-foreground">Patch Name</p>
+              <p className="text-sm font-medium">Kadak Chai</p>
             </div>
           </div>
         </section>
+
+        {/* setting footer */}
+        <div className="p-4 bg-white border rounded-xl border-border/60 shadow-sm">
+          <div className="text-center text-muted-foreground text-sm">
+            <p>Made with ❤️ for free forever by</p>
+            <p className="font-medium">Deep Productions</p>
+          </div>
+        </div>
       </div>
 
       {/* Menu modal */}

@@ -8,8 +8,8 @@ const geist = Geist({
 })
 
 export const metadata = {
-  title: 'Chaiwala',
-  description: 'Digital ledger for your chai delivery business',
+  title: 'Chaiwala | Deep Productions',
+  description: 'Chaiwala, a digital ledger for your chai business by Deep Productions. Track sales, manage customers and payments, and grow your business. Made with love for free forever!',
   manifest: '/manifest.json',
   icons: [
     { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },

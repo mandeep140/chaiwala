@@ -166,10 +166,10 @@ export default function CollectPaymentModal({
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={onClose} className="flex-1">
+          <Button variant="outline" onClick={onClose} className="flex-1 py-1">
             Cancel
           </Button>
-          <Button onClick={handleConfirm} disabled={loading} className="flex-1">
+          <Button onClick={handleConfirm} disabled={loading} className="flex-1 py-2">
             {loading ? 'Saving...' : 'Confirm'}
           </Button>
         </DialogFooter>

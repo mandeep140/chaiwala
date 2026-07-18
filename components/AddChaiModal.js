@@ -22,6 +22,7 @@ import {
 export default function AddChaiModal({ open, onClose, customer, onSuccess }) {
   const [menuItems, setMenuItems] = useState([])
   const [selectedItemId, setSelectedItemId] = useState('')
+  const [selectedItemName, setSelectedItemName] = useState('')
   const [qty, setQty] = useState(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -41,7 +42,18 @@ export default function AddChaiModal({ open, onClose, customer, onSuccess }) {
 
     // Set default: customer custom rate first, then global default
     const defaultItem = items.find((i) => i.isDefault) || items[0]
-    if (defaultItem) setSelectedItemId(defaultItem._id)
+    if (defaultItem) {
+      setSelectedItemId(defaultItem._id)
+      setSelectedItemName(defaultItem.name)
+    }
+  }
+
+  const handleItemChange = (value) => {
+    const item = menuItems.find((i) => i.name === value)
+    if (item) {
+      setSelectedItemId(item._id)
+      setSelectedItemName(item.name)
+    }
   }
 
   function getRateForItem(itemId) {
@@ -109,13 +121,13 @@ export default function AddChaiModal({ open, onClose, customer, onSuccess }) {
         <div className="space-y-4 py-2">
           <div className="space-y-1.5">
             <Label>Item</Label>
-            <Select value={selectedItemId} onValueChange={setSelectedItemId}>
+            <Select value={selectedItemName} onValueChange={handleItemChange}>
               <SelectTrigger className="h-10">
                 <SelectValue placeholder="Select item" />
               </SelectTrigger>
               <SelectContent>
                 {menuItems.map((item) => (
-                  <SelectItem key={item._id} value={item._id}>
+                  <SelectItem key={item._id} value={item.name}>
                     {item.name}
                   </SelectItem>
                 ))}
@@ -128,9 +140,8 @@ export default function AddChaiModal({ open, onClose, customer, onSuccess }) {
             <Input
               id="qty"
               type="number"
-              min={1}
               value={qty}
-              onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 1))}
+              onChange={(e) => setQty(e.target.value)}
               className="h-10"
             />
           </div>
@@ -152,10 +163,10 @@ export default function AddChaiModal({ open, onClose, customer, onSuccess }) {
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={onClose} className="flex-1">
+          <Button variant="outline" onClick={onClose} className="flex-1 py-1">
             Cancel
           </Button>
-          <Button onClick={handleConfirm} disabled={loading} className="flex-1">
+          <Button onClick={handleConfirm} disabled={loading} className="flex-1 py-2">
             {loading ? 'Saving...' : 'Add'}
           </Button>
         </DialogFooter>

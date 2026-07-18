@@ -1,15 +1,15 @@
-const CACHE_NAME = 'chaiwala-v1'
-const STATIC_ASSETS = [
-  '/',
-  '/analytics',
-  '/settings',
-  '/manifest.json',
-]
+const CACHE_NAME = 'chaiwala-v3'
+const OFFLINE_URL = '/offline.html'
 
+// Pre-cache the offline page during install
 self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.add(OFFLINE_URL))
+  )
   self.skipWaiting()
 })
 
+// Clean up old caches on activate
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -21,14 +21,24 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
-// Network-first strategy for API, cache-first for static
 self.addEventListener('fetch', (event) => {
   const { request } = event
-  const url = new URL(request.url)
 
-  // Skip non-GET requests and API calls (always network)
-  if (request.method !== 'GET' || url.pathname.startsWith('/api/')) return
+  // Only handle GET requests
+  if (request.method !== 'GET') return
 
+  // Skip API calls entirely — always go to network, never fallback
+  if (new URL(request.url).pathname.startsWith('/api/')) return
+
+  // For page navigations: network first, fallback to offline page
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match(OFFLINE_URL))
+    )
+    return
+  }
+
+  // For static assets: network first, then cache, then skip
   event.respondWith(
     fetch(request)
       .then((response) => {
