@@ -117,6 +117,15 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
+
+        <div className="mt-6 text-center">
+          <p className="text-sm font-semibold text-muted-foreground mb-2">
+            Currently, the platform operates on an invite-only basis
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Version 1.0.1 (kadak Chai) | Built with ❤️ by Deep Productions.
+          </p>
+        </div>
       </div>
     </div>
   )
